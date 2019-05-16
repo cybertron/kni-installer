@@ -12,7 +12,7 @@ import (
 
 // Platform collects bare metal specific configuration.
 func Platform() (*baremetal.Platform, error) {
-	var libvirtURI, ironicURI, nodesJSON string
+	var libvirtURI, ironicURI, nodesJSON, apiVIP string
 	err := survey.Ask([]*survey.Question{
 		{
 			Prompt: &survey.Input{
@@ -58,10 +58,26 @@ func Platform() (*baremetal.Platform, error) {
 		return nil, err
 	}
 
+	// Is there some place we can populate this based on a DNS query instead of
+	// adding a survey question? Seems like there should be.
+	err = survey.Ask([]*survey.Question{
+		{
+			Prompt: &survey.Input{
+				Message: "API VIP",
+				Help:    "The IP pointed to by the API DNS entry.",
+			},
+			Validate: survey.ComposeValidators(survey.Required, ipValidator),
+		},
+	}, &apiVIP)
+	if err != nil {
+		return nil, err
+	}
+
 	return &baremetal.Platform{
 		LibvirtURI: libvirtURI,
 		IronicURI: ironicURI,
 		Nodes: nodes,
+		ApiVIP: apiVIP,
 	}, nil
 }
 
@@ -69,4 +85,9 @@ func Platform() (*baremetal.Platform, error) {
 // url and has non-empty scheme.
 func uriValidator(ans interface{}) error {
 	return validate.URI(ans.(string))
+}
+
+func ipValidator(ans interface{}) error {
+	// TODO(bnemec): Implement me
+	return nil
 }

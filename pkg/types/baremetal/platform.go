@@ -27,4 +27,7 @@ type Platform struct {
 	// platform configuration.
 	// +optional
 	DefaultMachinePlatform *MachinePool `json:"defaultMachinePlatform,omitempty"`
+
+	// ApiVIP is the IP of the API DNS entry
+	ApiVIP string `json:"api_vip"`
 }
