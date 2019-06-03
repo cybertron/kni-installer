@@ -16,10 +16,15 @@ if ! release=$( podman inspect {{.ReleaseImage}} -f '{{"{{"}} index .RepoDigests
 	release="{{.ReleaseImage}}"
 fi
 
-MACHINE_CONFIG_OPERATOR_IMAGE=$(podman run --quiet --rm ${release} image machine-config-operator)
-MACHINE_CONFIG_CONTROLLER_IMAGE=$(podman run --quiet --rm ${release} image machine-config-controller)
-MACHINE_CONFIG_SERVER_IMAGE=$(podman run --quiet --rm ${release} image machine-config-server)
-MACHINE_CONFIG_DAEMON_IMAGE=$(podman run --quiet --rm ${release} image machine-config-daemon)
+# MACHINE_CONFIG_OPERATOR_IMAGE=$(podman run --quiet --rm ${release} image machine-config-operator)
+# MACHINE_CONFIG_CONTROLLER_IMAGE=$(podman run --quiet --rm ${release} image machine-config-controller)
+# MACHINE_CONFIG_SERVER_IMAGE=$(podman run --quiet --rm ${release} image machine-config-server)
+# MACHINE_CONFIG_DAEMON_IMAGE=$(podman run --quiet --rm ${release} image machine-config-daemon)
+MACHINE_CONFIG_OPERATOR_IMAGE=quay.io/cybertron/machine-config-operator
+MACHINE_CONFIG_CONTROLLER_IMAGE=quay.io/cybertron/machine-config-controller
+MACHINE_CONFIG_SERVER_IMAGE=quay.io/cybertron/machine-config-server
+MACHINE_CONFIG_DAEMON_IMAGE=quay.io/cybertron/machine-config-daemon
+
 MACHINE_CONFIG_OSCONTENT=$(podman run --quiet --rm ${release} image machine-os-content)
 MACHINE_CONFIG_ETCD_IMAGE=$(podman run --quiet --rm ${release} image etcd)
 MACHINE_CONFIG_SETUP_ETCD_ENV_IMAGE=$(podman run --quiet --rm ${release} image setup-etcd-environment)
